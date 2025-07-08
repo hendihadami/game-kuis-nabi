@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuis Tebak Nabi</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Kuis Tebak Nama Nabi</h1>
+    <div id="soal-container">
+      <p id="soal">Memuat soal...</p>
+      <div id="pilihan-container"></div>
+      <p id="pesan"></p>
+      <button onclick="soalSelanjutnya()" class="btn-next">Soal Selanjutnya</button>
+    </div>
+  </div>
+
+  <script>
+    const daftarSoal = [
+      {
+        soal: "Siapa nabi yang diselamatkan dari api oleh Allah?",
+        pilihan: ["Nabi Nuh", "Nabi Ibrahim", "Nabi Musa"],
+        jawaban: "Nabi Ibrahim"
+      },
+      {
+        soal: "Siapa nabi yang bisa berbicara saat bayi?",
+        pilihan: ["Nabi Isa", "Nabi Adam", "Nabi Yusuf"],
+        jawaban: "Nabi Isa"
+      },
+      {
+        soal: "Siapa nabi yang membuat kapal besar atas wahyu Allah?",
+        pilihan: ["Nabi Musa", "Nabi Yunus", "Nabi Nuh"],
+        jawaban: "Nabi Nuh"
+      },
+      {
+        soal: "Siapa nabi yang ditelan ikan besar?",
+        pilihan: ["Nabi Ibrahim", "Nabi Yunus", "Nabi Isa"],
+        jawaban: "Nabi Yunus"
+      }
+    ];
+
+    let indexSoal = 0;
+
+    function tampilkanSoal() {
+      const data = daftarSoal[indexSoal];
+      document.getElementById("soal").textContent = data.soal;
+
+      const container = document.getElementById("pilihan-container");
+      container.innerHTML = "";
+
+      data.pilihan.forEach((pilihan) => {
+        const btn = document.createElement("button");
+        btn.textContent = pilihan;
+        btn.className = "btn-jawaban";
+        btn.onclick = () => cekJawaban(pilihan, data.jawaban);
+        container.appendChild(btn);
+      });
+
+      document.getElementById("pesan").textContent = "";
+    }
+
+    function cekJawaban(pilihan, jawaban) {
+      const pesan = document.getElementById("pesan");
+      if (pilihan === jawaban) {
+        pesan.textContent = "✅ Benar!";
+        pesan.style.color = "green";
+      } else {
+        pesan.textContent = "❌ Salah. Jawaban: " + jawaban;
+        pesan.style.color = "red";
+      }
+    }
+
+    function soalSelanjutnya() {
+      indexSoal++;
+      if (indexSoal >= daftarSoal.length) {
+        document.getElementById("soal-container").innerHTML = "<h2>🎉 Kuis Selesai!</h2><p>Semoga menambah ilmu ya!</p>";
+      } else {
+        tampilkanSoal();
+      }
+    }
+
+    window.onload = tampilkanSoal;
+  </script>
+</body>
+</html>
